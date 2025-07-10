@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROFESSOR SIM DATABASE</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at center, #0a0a0a, #000000);
+      color: #00fff7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      text-shadow: 0 0 10px #00fff7;
+    }
+
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid #00fff7;
+      margin: 20px 0;
+      box-shadow: 0 0 30px #00fff7;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    input {
+      width: 100%;
+      max-width: 300px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      background: #111;
+      color: #0f0;
+      margin: 15px 0;
+      box-shadow: 0 0 10px #00fff7;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      background: #00fff7;
+      color: #000;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00fff7;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00fff7;
+    }
+
+    .result {
+      margin-top: 30px;
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      width: 400px;
+      box-shadow: 0 0 15px #00fff7;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .join-btn {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 0 15px #25D366;
+      transition: transform 0.3s;
+    }
+
+    .join-btn:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>⚡ PROFESSOR DATABASE ⚡</h1>
+
+  <!-- Updated Avatar with new image -->
+  <div class="avatar">
+    <img src="https://i.ibb.co/Lqv1w8t/IMG-20250621-WA0079.jpg" alt="Profile"/>
+  </div>
+
+  <input type="text" id="number" placeholder="Enter Phone Number"/>
+  <button onclick="getSimDetails()">🔍 Search</button>
+
+  <div class="result" id="resultBox">Enter a number to fetch SIM data...</div>
+
+  <a href="https://whatsapp.com/channel/0029Vb6mVId5fM5ZiYXtrb0h" target="_blank" class="join-btn">📢Join WhatsApp Channel📢</a>
+
+  <footer>© 2025 | Created by <strong>MS-HA4K3R</strong> 🔥</footer>
+
+  <script>
+    function getSimDetails() {
+      const number = document.getElementById('number').value.trim();
+      const box = document.getElementById('resultBox');
+
+      if (!number) {
+        box.innerHTML = "❌ Please enter a number!";
+        return;
+      }
+
+      box.innerHTML = "🔄 Fetching data...";
+
+      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://famofcfallxd.serv00.net/apis/simdataapi.php?num=${number}`)}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const response = JSON.parse(data.contents);
+
+          if (response.status === "success" && response.data.length > 0) {
+            let content = "";
+            response.data.forEach(entry => {
+              content += `
+                <b>📛 Name:</b> ${entry.Name || "N/A"}<br>
+                <b>📞 Mobile:</b> ${entry.Mobile || "N/A"}<br>
+                <b>🆔 CNIC:</b> ${entry.CNIC || "N/A"}<br>
+                <b>📶 Operator:</b> ${entry.Operator || "N/A"}<br>
+                <b>📍 Address:</b> ${entry.Address || "N/A"}<hr>`;
+            });
+            box.innerHTML = content;
+          } else {
+            box.innerHTML = "❌ No data found for this number.";
+          }
+        })
+        .catch(err => {
+          box.innerHTML = "❌ Error fetching data. Try again later.";
+        });
+    }
+  </script>
+
+</body>
+</html>
